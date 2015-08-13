@@ -88,6 +88,7 @@ private class BasicStyler(title: String, baseStyle: String, baseJs: String, base
 	private def classes(code: Int) =
 	{
 		import Tokens._
+    def isKeyword( code : Int ) = code >= NEW && code <= RETURN
 		code match
 		{
 			case CHARLIT => "char" :: Nil
