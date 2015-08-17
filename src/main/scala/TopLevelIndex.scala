@@ -35,7 +35,9 @@ final class CompoundIndex(val is: Seq[TopLevelIndex]) extends TopLevelIndex
 
 object TopLevelIndex
 {
-	val sep = " " + File.pathSeparator + " "
+	val sepOld = " " + File.pathSeparator + " "
+	val sep = " : "
+
 
 	def write(f: File, tli: MapIndex): Unit = withWriter(f) { writer =>
 		asLines(tli).sorted.foreach(writeLine(writer))

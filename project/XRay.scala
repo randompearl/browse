@@ -98,5 +98,5 @@ object XRay extends Build
 		Relation.empty ++ mappings
 	}
 	def sameFile(actualFile: File, expectedFile: File): Boolean =
-		IO.read(actualFile) == IO.read(expectedFile)
+		IO.readLines(actualFile) == IO.readLines(expectedFile)
 }
