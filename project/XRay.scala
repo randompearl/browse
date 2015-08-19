@@ -8,7 +8,9 @@ object XRay extends Build
 		name := "sxr",
 		organization in ThisBuild := "org.scala-sbt.sxr",
 		version in ThisBuild := "0.3.1-SNAPSHOT",
-		scalaVersion in ThisBuild := "2.10.2",
+    crossPaths := true,
+		scalaVersion in ThisBuild := "2.10.5",
+    crossScalaVersions := Seq("2.10.5", "2.11.7"),
 		scalacOptions += "-deprecation",
 		ivyConfigurations += js,
 		exportJars := true,
@@ -39,7 +41,15 @@ object XRay extends Build
 			val out = (classDirectory in Compile).value
 			val base = baseDirectory.value
 			checkOutput(out / "../classes.sxr", base / "expected", streams.value.log)
-		}
+		},
+    libraryDependencies := {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2,scalaMajor)) if scalaMajor >= 11 =>
+          libraryDependencies.value ++ Seq("org.scala-lang.modules" %% "scala-xml" % "1.0.5")
+        case _ => libraryDependencies.value
+      }
+    },
+    unmanagedResourceDirectories in Runtime += baseDirectory.value.getParentFile / "src/main/resources"
 	)
 
 	val js = config("js").hide

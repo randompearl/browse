@@ -100,7 +100,7 @@ private class BasicStyler(title: String, baseStyle: String, baseJs: String, base
 			case COMMENT => "comment" :: Nil
 		        case LPAREN | RPAREN | LBRACKET | RBRACKET | LBRACE | RBRACE => "delimiter" :: Nil
 			case _ =>
-				if(isKeyword(code))
+				if(TokenUtils.isKeyword(code))
 					"keyword" :: Nil
 				else
 					Nil
