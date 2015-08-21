@@ -36,12 +36,14 @@ object XRay extends Build
 	def testProjectSettings = Seq(
 		autoCompilerPlugins := true,
 		compile in Compile <<= (compile in Compile).dependsOn(clean),
+    crossScalaVersions := Seq("2.10.5", "2.11.7"),
 		Keys.test := {
 			val _ = (compile in Compile).value
 			val out = (classDirectory in Compile).value
 			val base = baseDirectory.value
 			checkOutput(out / "../classes.sxr", base / "expected", streams.value.log)
 		},
+    fork in Compile := true,
     libraryDependencies := {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2,scalaMajor)) if scalaMajor >= 11 =>
@@ -49,7 +51,7 @@ object XRay extends Build
         case _ => libraryDependencies.value
       }
     },
-    unmanagedResourceDirectories in Runtime += baseDirectory.value.getParentFile / "src/main/resources"
+    scalacOptions += "-P:sxr:output-formats:text+html"
 	)
 
 	val js = config("js").hide
