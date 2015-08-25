@@ -17,7 +17,9 @@ import java.net.URL
 import OutputFormat.{OutputFormat, getWriter}
 import Browse._
 
-class StableID(val id: String) extends AnyVal
+class StableID(val id: String) extends AnyVal {
+  override def toString = s"StableId($id)"
+}
 
 object Browse
 {

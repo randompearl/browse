@@ -5,7 +5,7 @@ import sxr._
 import java.io._
 class TextWriter(context : OutputWriterContext) extends OutputWriter {
 
-  val basedir = new File( context.outputDirectory, "summary" )
+  val basedir = new File( context.outputDirectory, "text" )
   def writeStart() {
   }
   def writeEnd() {
@@ -15,8 +15,10 @@ class TextWriter(context : OutputWriterContext) extends OutputWriter {
     file.getParentFile().mkdirs()
     FileUtil.withWriter( file ) { writer =>
       tokens.foreach {
-        case Token(start,length,code) => 
-          writer.write(TokenUtils.toStr(code) + "::" + start + "::" + length)
+        case tok@Token(start,length,intCode) => 
+          val code = TokenUtils.toStr(intCode)
+          val tpe = tok.tpe.toString
+          writer.write(s"""Token($code,$start,$length) -> $tpe""")
           writer.newLine()
       }
     }

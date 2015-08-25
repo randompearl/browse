@@ -18,7 +18,8 @@ object XRay extends Build
 		libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value % "provided",
 		jqueryAll := target.value / "jquery-all.js",
 		combineJs := combineJquery(update.value, jqueryAll.value, streams.value.log),
-		resourceGenerators in Compile <+= combineJs
+		resourceGenerators in Compile <+= combineJs,
+    publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
 	)
 
 	lazy val test = project.dependsOn(main % CompilerPlugin).settings(testProjectSettings: _*)
